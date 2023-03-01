@@ -1,0 +1,9 @@
+{
+  "name": "fancyfetch",
+  "version": "0.0.0",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cooperwfloyd/fancyfetch"
+  }
+}
