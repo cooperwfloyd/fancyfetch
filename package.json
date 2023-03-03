@@ -1,7 +1,8 @@
 {
   "name": "@cooperwfloyd/fancyfetch",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
+  "license": "ISC",
   "main": "src/index.js",
   "engines": {
     "node": "18.14.2",
