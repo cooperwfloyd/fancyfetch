@@ -1,0 +1,7 @@
+.git/*
+.next/*
+out/*
+**/dist/*
+node_modules/*
+.env
+package-lock.json

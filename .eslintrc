@@ -1,0 +1,47 @@
+{
+  "env": {
+    "browser": false,
+    "es2022": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/all",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/errors",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "ignorePatterns": ["**/dist/**/*", "**/node_modules/**/*", "**/*.js"], // remove ignore of .js files
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "impliedStrict": true,
+    "project": ["./tsconfig.json"],
+    "sourceType": "module"
+  },
+  "root": true,
+  "rules": {
+    "@typescript-eslint/no-magic-numbers": "off",
+    "@typescript-eslint/no-misused-promises": "error",
+    "@typescript-eslint/no-unnecessary-condition": "off",
+    "@typescript-eslint/no-unsafe-call": "error",
+    "@typescript-eslint/prefer-readonly-parameter-types": "off",
+    "block-scoped-var": "error",
+    "camelcase": "error",
+    "eqeqeq": "error",
+    "no-empty-function": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-invalid-this": "error",
+    "no-script-url": "error",
+    "no-unneeded-ternary": "error",
+    "no-use-before-define": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "prefer-template": "error",
+    "require-await": "error",
+    "sort-imports": "error",
+    "spaced-comment": "error"
+  }
+}

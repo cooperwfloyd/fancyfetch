@@ -1,8 +1,9 @@
+import type {Response} from 'node-fetch';
 import fancyfetch from '../index.js';
 
-(async () => {
+void (async (): Promise<void> => {
   await fancyfetch(`https://www.example.com`, null, {
-    validateResponse: (response, index) => {
+    validateResponse: (response: Response, index: number) => {
       if (index !== 5 || response.status !== 200) return false;
       return true;
     },

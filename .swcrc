@@ -1,0 +1,33 @@
+{
+  "env": {
+    "targets": {
+      "node": 18
+    }
+  },
+  "exclude": "/types",
+  "jsc": {
+    "baseUrl": ".",
+    "loose": false,
+    "minify": {
+      "compress": {
+        "unused": true
+      },
+      "mangle": true
+    },
+    "parser": {
+      "decorators": false,
+      "dynamicImport": false,
+      "syntax": "typescript",
+      "tsx": false
+    },
+    "target": "es2022"
+  },
+  "minify": true,
+  "module": {
+    "lazy": false,
+    "noInterop": true,
+    "strict": true,
+    "strictMode": true,
+    "type": "nodenext"
+  }
+}
