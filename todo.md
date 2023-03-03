@@ -1,0 +1,6 @@
+[//]: # '// TODO: documentation'
+[//]: # '// TODO: editor configs'
+[//]: # '// TODO: formatting'
+[//]: # '// TODO: compiler'
+[//]: # '// TODO: linter'
+[//]: # '// TODO: other general setup specs, files, global configs, etc from other projects'
