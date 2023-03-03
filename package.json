@@ -1,9 +1,20 @@
 {
   "name": "@cooperwfloyd/fancyfetch",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "type": "module",
   "main": "src/index.js",
+  "engines": {
+    "node": "18.14.2",
+    "npm": "9.5.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/cooperwfloyd/fancyfetch"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  },
+  "scripts": {
+    "test": "node src/test/index.js"
   }
 }
