@@ -18,6 +18,6 @@
     "pretty": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["**/*.ts", "src/index.js"],
+  "include": ["**/*.ts"],
   "exclude": ["./dist", "node_modules"]
 }

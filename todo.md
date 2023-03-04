@@ -4,4 +4,3 @@
 [//]: # '// TODO: compiler'
 [//]: # '// TODO: linter'
 [//]: # '// TODO: other general setup specs, files, global configs, etc from other projects'
-[//]: # '// TODO: add .js check back to lintstagedrc'
