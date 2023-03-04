@@ -4,3 +4,5 @@
 [//]: # '// TODO: compiler'
 [//]: # '// TODO: linter'
 [//]: # '// TODO: other general setup specs, files, global configs, etc from other projects'
+[//]: # '// TODO: also generate type files in dist'
+[//]: # '// TODO: get package.json commands places for prepublish and any other helpful options'
