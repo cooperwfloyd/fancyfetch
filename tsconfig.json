@@ -16,8 +16,7 @@
     "outDir": "./dist",
     "listEmittedFiles": true,
     "pretty": true,
-    "noUncheckedIndexedAccess": true,
-    "declaration": true
+    "noUncheckedIndexedAccess": true
   },
   "include": ["**/*.ts"],
   "exclude": ["./dist", "node_modules"]
