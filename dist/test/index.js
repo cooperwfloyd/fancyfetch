@@ -1,1 +1,0 @@
-import a from"../index.js";(async()=>{await a("https://www.example.com",null,{validateResponse:(a,s)=>5===s&&200===a.status,maxTries:10})})();
