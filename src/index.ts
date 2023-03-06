@@ -116,6 +116,9 @@ const fancyfetch = async (
 
       if (extras?.onRetryError) {
         extras.onRetryError();
+        continue;
+      } else {
+        continue;
       }
     }
   }
