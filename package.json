@@ -1,9 +1,9 @@
 {
   "name": "@cooperwfloyd/fancyfetch",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "license": "ISC",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "engines": {
     "node": "18.14.2",
     "npm": "9.5.0"
@@ -36,12 +36,13 @@
     "prettier": "^2.8.0"
   },
   "scripts": {
-    "build": "npm run test && npm run prettier && npm run compile",
-    "clean": "npm run test && npm run prettier",
-    "compile": "swc ./src/* --out-dir ./dist",
+    "build": "npm run test && tsc --noEmit && npm run compile",
+    "clean": "rm -rf ./dist && npm run test && npm run prettier",
+    "compile": "tsc --emitDeclarationOnly && swc ./src/* --out-dir ./dist",
+    "prepublishOnly": "npm run build",
     "prepare": "husky install",
     "prettier": "npx prettier --write .",
-    "start": "NODE_ENV='production' nodemon --es-module-specifier-resolution=node \"./dist/test.js\"",
+    "start": "NODE_ENV='production' nodemon --es-module-specifier-resolution=node \"./dist/test/index.js\"",
     "test": "npx eslint \"./src/**/*.ts\" \"./src/*.ts\" --max-warnings=0 --fix"
   }
 }

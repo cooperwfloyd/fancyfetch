@@ -6,7 +6,6 @@
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": false,
     "esModuleInterop": true,
     "module": "es2022",
     "moduleResolution": "node",
@@ -16,8 +15,9 @@
     "outDir": "./dist",
     "listEmittedFiles": true,
     "pretty": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "declaration": true
   },
-  "include": ["**/*.ts"],
+  "include": ["**/src/*.ts", "**/src/**/*.ts"],
   "exclude": ["./dist", "node_modules"]
 }

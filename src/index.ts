@@ -1,6 +1,17 @@
-import type Fancyfetch from './types';
-import type {Response} from 'node-fetch';
+import type {RequestInfo, RequestInit, Response} from 'node-fetch';
 import fetch from 'node-fetch';
+
+interface Fancyfetch {
+  resource: RequestInfo;
+  options?: RequestInit | undefined;
+  extras?: {
+    maxAttempts?: number;
+    validateResponse?: (response: Response, attempt: number) => boolean;
+    onError?: () => void;
+    onRetrySuccess?: () => void;
+    onRetryError?: () => void;
+  };
+}
 
 const fancyfetch = async (
   resource: Fancyfetch[`resource`],

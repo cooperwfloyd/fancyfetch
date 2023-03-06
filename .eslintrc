@@ -13,7 +13,7 @@
     "plugin:import/typescript",
     "plugin:prettier/recommended"
   ],
-  "ignorePatterns": ["**/dist/**/*", "**/node_modules/**/*", "**/*.js"], // remove ignore of .js files
+  "ignorePatterns": ["**/dist/**/*", "**/node_modules/**/*"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "impliedStrict": true,

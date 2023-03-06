@@ -4,7 +4,6 @@
       "node": 18
     }
   },
-  "exclude": "/types",
   "jsc": {
     "baseUrl": ".",
     "loose": false,
