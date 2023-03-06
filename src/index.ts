@@ -6,7 +6,7 @@ interface Fancyfetch {
   options?: RequestInit | null | undefined;
   extras?: {
     maxAttempts?: number;
-    validateResponse: (response: Response) => Promise<boolean> | boolean;
+    validateResponse?: (response: Response) => Promise<boolean> | boolean;
     onError?: () => void;
     onRetrySuccess?: () => void;
     onRetryError?: () => void;
@@ -86,7 +86,9 @@ const fancyfetch = async (
         highWaterMark: 1024 * 1024,
         ...options,
       });
-      const validResponse = !!(await extras.validateResponse(response));
+      const validResponse = extras?.validateResponse
+        ? !!(await extras.validateResponse(response))
+        : true;
 
       if (validResponse) {
         if (attempts > 1) {
