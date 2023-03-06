@@ -104,25 +104,20 @@ const fancyfetch = async (
 
         return response;
       } else {
+        if (maxAttempts === 1) return null;
+
         console.error(
           `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying...`
         );
 
-        if (extras?.onRetryError) {
-          extras.onRetryError();
-        }
-
+        if (extras?.onRetryError) extras.onRetryError();
         return await tryFetch();
       }
     } catch {
+      if (maxAttempts === 1) return null;
       console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
-
-      if (extras?.onRetryError) {
-        extras.onRetryError();
-        return await tryFetch();
-      } else {
-        return await tryFetch();
-      }
+      if (extras?.onRetryError) extras.onRetryError();
+      return await tryFetch();
     }
   };
 
