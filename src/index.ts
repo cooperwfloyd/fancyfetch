@@ -79,51 +79,52 @@ const fancyfetch = async (
 
   let result: Response | null = null;
 
-  await Promise.all(
-    Array.from(Array(extras?.maxAttempts ?? 1)).map(async (item, attempt) => {
-      try {
-        const response: Response = await fetch(resource, {...options});
-        const validResponse = !!(
-          !!(
-            !!extras?.validateResponse &&
-            extras.validateResponse(response, attempt)
-          ) || !extras?.validateResponse
-        );
+  for await (const attempt of Array.from(
+    Array(extras?.maxAttempts ?? 1).keys()
+  )) {
+    try {
+      const response: Response = await fetch(resource, {...options});
+      const validResponse = !!(
+        !!(
+          !!extras?.validateResponse &&
+          extras.validateResponse(response, attempt)
+        ) || !extras?.validateResponse
+      );
 
-        if (validResponse) {
-          if (attempt > 0 && result !== null) {
-            console.log(`fancyfetch fetch retry successful`);
+      if (validResponse) {
+        if (attempt > 0 && result !== null) {
+          console.log(`fancyfetch fetch retry successful`);
 
-            if (extras?.onRetrySuccess) {
-              extras.onRetrySuccess();
-            }
-          }
-
-          result = response;
-        } else if (extras?.validateResponse) {
-          console.error(
-            `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying...`
-          );
-
-          if (extras?.onRetryError) {
-            extras.onRetryError();
-          }
-        } else {
-          console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
-
-          if (extras?.onRetryError) {
-            extras.onRetryError();
+          if (extras?.onRetrySuccess) {
+            extras.onRetrySuccess();
           }
         }
-      } catch {
+
+        result = response;
+        break;
+      } else if (extras?.validateResponse) {
+        console.error(
+          `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying...`
+        );
+
+        if (extras?.onRetryError) {
+          extras.onRetryError();
+        }
+      } else {
         console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
 
         if (extras?.onRetryError) {
           extras.onRetryError();
         }
       }
-    })
-  );
+    } catch {
+      console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
+
+      if (extras?.onRetryError) {
+        extras.onRetryError();
+      }
+    }
+  }
 
   const errorMessage = `Error in fancyfetch: No successful responses were returned.\n\nresource: ${JSON.stringify(
     resource,

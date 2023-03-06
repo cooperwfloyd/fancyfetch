@@ -13,7 +13,7 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "outDir": "./dist",
-    "listEmittedFiles": true,
+    "listEmittedFiles": false,
     "pretty": true,
     "noUncheckedIndexedAccess": true,
     "declaration": true
