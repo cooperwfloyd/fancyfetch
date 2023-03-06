@@ -85,7 +85,10 @@ const fancyfetch = async (
     if (attempts > maxAttempts) return null;
 
     try {
-      const response: Response = await fetch(resource, {...options});
+      const response: Response = await fetch(resource, {
+        highWaterMark: 1024 * 1024,
+        ...options,
+      });
       const validResponse = !!(await extras.validateResponse(
         response,
         attempts
