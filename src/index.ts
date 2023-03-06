@@ -84,7 +84,10 @@ const fancyfetch = async (
   )) {
     try {
       const response: Response = await fetch(resource, {...options});
-      const validResponse = await extras.validateResponse(response, attempt);
+      const validResponse = !!(await extras.validateResponse(
+        response,
+        attempt
+      ));
 
       if (validResponse) {
         if (attempt > 0 && result !== null) {
