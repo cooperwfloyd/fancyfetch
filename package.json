@@ -1,12 +1,12 @@
 {
   "name": "@cooperwfloyd/fancyfetch",
-  "version": "0.12.5",
+  "version": "0.12.6",
   "type": "module",
   "license": "ISC",
   "main": "dist/index.js",
   "engines": {
-    "node": "18.14.2",
-    "npm": "9.5.0"
+    "node": ">=16.17.0 <19",
+    "npm": ">=8.15.0 <10"
   },
   "repository": {
     "type": "git",
