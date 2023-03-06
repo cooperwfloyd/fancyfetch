@@ -108,6 +108,8 @@ const fancyfetch = async (
         if (extras?.onRetryError) {
           extras.onRetryError();
         }
+
+        continue;
       }
     } catch {
       console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
