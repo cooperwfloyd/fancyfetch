@@ -49,7 +49,10 @@ const fancyfetch = async (
     throw new Error(
       `Error in fancyfetch: extras.maxAttempts must be a positive integer.\n\nextras.maxAttempts: ${extras.maxAttempts}`
     );
-  if (typeof extras?.validateResponse !== `function`)
+  if (
+    extras?.validateResponse &&
+    typeof extras?.validateResponse !== `function`
+  )
     throw new Error(
       `Error in fancyfetch: extras.validateResponse must be a valid function.\n\nextras.validateResponse: ${String(
         extras?.validateResponse
