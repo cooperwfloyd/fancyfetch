@@ -39,7 +39,7 @@
     "build": "npm run test && tsc --noEmit && npm run compile",
     "clean": "rm -rf ./dist && npm run test && npm run prettier",
     "compile": "tsc --emitDeclarationOnly && swc ./src/* --out-dir ./dist",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm i && npm run build",
     "prepare": "husky install",
     "prettier": "npx prettier --write .",
     "start": "NODE_ENV='production' nodemon --es-module-specifier-resolution=node \"./dist/test/index.js\"",
