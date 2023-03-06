@@ -92,7 +92,7 @@ const fancyfetch = async (
       ));
 
       if (validResponse) {
-        if (attempts > 0) {
+        if (attempts > 1) {
           console.log(`fancyfetch fetch retry successful`);
 
           if (extras?.onRetrySuccess) {
