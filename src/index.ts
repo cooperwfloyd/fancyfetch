@@ -77,20 +77,22 @@ const fancyfetch = async (
       )}`
     );
 
-  let result: Response | null = null;
+  const maxAttempts = extras?.maxAttempts ?? 1;
+  let attempts = 0;
 
-  for await (const attempt of Array.from(
-    Array(extras?.maxAttempts ?? 1).keys()
-  )) {
+  const tryFetch = async (): Promise<Response | null> => {
+    attempts++;
+    if (attempts > maxAttempts) return null;
+
     try {
       const response: Response = await fetch(resource, {...options});
       const validResponse = !!(await extras.validateResponse(
         response,
-        attempt
+        attempts
       ));
 
       if (validResponse) {
-        if (attempt > 0 && result !== null) {
+        if (attempts > 0) {
           console.log(`fancyfetch fetch retry successful`);
 
           if (extras?.onRetrySuccess) {
@@ -98,8 +100,7 @@ const fancyfetch = async (
           }
         }
 
-        result = response;
-        break;
+        return response;
       } else {
         console.error(
           `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying...`
@@ -109,19 +110,21 @@ const fancyfetch = async (
           extras.onRetryError();
         }
 
-        continue;
+        return await tryFetch();
       }
     } catch {
       console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
 
       if (extras?.onRetryError) {
         extras.onRetryError();
-        continue;
+        return await tryFetch();
       } else {
-        continue;
+        return await tryFetch();
       }
     }
-  }
+  };
+
+  const result = await tryFetch();
 
   const errorMessage = `Error in fancyfetch: No successful responses were returned.\n\nresource: ${JSON.stringify(
     resource,

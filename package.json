@@ -1,6 +1,6 @@
 {
   "name": "@cooperwfloyd/fancyfetch",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "type": "module",
   "license": "ISC",
   "main": "dist/index.js",
