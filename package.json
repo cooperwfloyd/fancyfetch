@@ -42,7 +42,7 @@
     "prepublishOnly": "npm i && npm run build",
     "prepare": "husky install",
     "prettier": "npx prettier --write .",
-    "start": "NODE_ENV='production' nodemon --es-module-specifier-resolution=node \"./dist/test/index.js\"",
+    "start": "NODE_ENV='production' node --es-module-specifier-resolution=node \"./dist/test/index.js\"",
     "test": "npx eslint \"./src/**/*.ts\" \"./src/*.ts\" --max-warnings=0 --fix"
   }
 }
