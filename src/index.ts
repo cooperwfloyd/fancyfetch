@@ -6,7 +6,10 @@ interface Fancyfetch {
   options?: RequestInit | null | undefined;
   extras?: {
     maxAttempts?: number;
-    validateResponse?: (response: Response, attempt: number) => boolean;
+    validateResponse: (
+      response: Response,
+      attempt: number
+    ) => Promise<boolean> | boolean;
     onError?: () => void;
     onRetrySuccess?: () => void;
     onRetryError?: () => void;
@@ -49,10 +52,7 @@ const fancyfetch = async (
     throw new Error(
       `Error in fancyfetch: extras.maxAttempts must be a positive integer.\n\nextras.maxAttempts: ${extras.maxAttempts}`
     );
-  if (
-    extras?.validateResponse &&
-    typeof extras?.validateResponse !== `function`
-  )
+  if (typeof extras?.validateResponse !== `function`)
     throw new Error(
       `Error in fancyfetch: extras.validateResponse must be a valid function.\n\nextras.validateResponse: ${String(
         extras?.validateResponse
@@ -84,12 +84,7 @@ const fancyfetch = async (
   )) {
     try {
       const response: Response = await fetch(resource, {...options});
-      const validResponse = !!(
-        !!(
-          !!extras?.validateResponse &&
-          extras.validateResponse(response, attempt)
-        ) || !extras?.validateResponse
-      );
+      const validResponse = await extras.validateResponse(response, attempt);
 
       if (validResponse) {
         if (attempt > 0 && result !== null) {
@@ -102,16 +97,10 @@ const fancyfetch = async (
 
         result = response;
         break;
-      } else if (extras?.validateResponse) {
+      } else {
         console.error(
           `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying...`
         );
-
-        if (extras?.onRetryError) {
-          extras.onRetryError();
-        }
-      } else {
-        console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
 
         if (extras?.onRetryError) {
           extras.onRetryError();
