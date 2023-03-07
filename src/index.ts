@@ -1,5 +1,5 @@
 import type {RequestInfo, RequestInit, Response} from 'node-fetch';
-import nodeFetch from 'node-fetch';
+import fetch from 'node-fetch';
 
 interface Fancyfetch {
   resource: RequestInfo;
@@ -85,15 +85,10 @@ const fancyfetch = async (
     if (attempts > maxAttempts) return null;
 
     try {
-      /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument */
-      // @ts-expect-error
-      const response: Response =
-        typeof window?.fetch !== `undefined`
-          ? // @ts-expect-error
-            await window.fetch(resource, {...options})
-          : await nodeFetch(resource, {highWaterMark: 1024 * 1024, ...options});
-      /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument */
-
+      const response: Response = await fetch(resource, {
+        highWaterMark: 1024 * 1024,
+        ...options,
+      });
       const validResponse = extras?.validateResponse
         ? !!(await extras.validateResponse(response))
         : true;

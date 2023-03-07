@@ -22,7 +22,6 @@
   },
   "root": true,
   "rules": {
-    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-magic-numbers": "off",
     "@typescript-eslint/no-misused-promises": "error",
     "@typescript-eslint/no-unnecessary-condition": "off",
