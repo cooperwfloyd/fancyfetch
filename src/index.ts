@@ -17,7 +17,7 @@ interface Fancyfetch {
   Think the entry point here should be something more like:
 
   index.js
-    check potential fetch method and assign browser or server (or, eventually, custom) to a fetchType variable
+    check potential fetch method and assign browser or server (or, eventually, custom) to a fetchType variable. should be conditional based on extras.ssr and current environment
     use that variable to dynamically import a client/index.js or server/index.js. node-fetch method should live in server/index.js
 */
 
