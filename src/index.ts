@@ -13,6 +13,14 @@ interface Fancyfetch {
   };
 }
 
+/*
+  Think the entry point here should be something more like:
+
+  index.js
+    check potential fetch method and assign browser or server (or, eventually, custom) to a fetchType variable
+    use that variable to dynamically import a client/index.js or server/index.js. node-fetch method should live in server/index.js
+*/
+
 const fancyfetch = async (
   resource: Fancyfetch[`resource`],
   options: Fancyfetch[`options`],
