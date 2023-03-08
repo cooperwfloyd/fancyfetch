@@ -4,6 +4,7 @@ interface Fancyfetch {
   resource: RequestInfo;
   options?: RequestInit | null | undefined;
   extras?: {
+    ssr?: boolean;
     maxAttempts?: number;
     validateResponse?: (response: Response) => Promise<boolean> | boolean;
     onError?: () => void;
@@ -75,6 +76,7 @@ const fancyfetch = async (
         extras.onRetryError
       )}`
     );
+  if (extras?.ssr === false && typeof window === `undefined`) return null;
 
   /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
   const fetchToUse =
