@@ -1,5 +1,4 @@
 import type {RequestInfo, RequestInit, Response} from 'node-fetch';
-import nodeFetch from 'node-fetch';
 
 interface Fancyfetch {
   resource: RequestInfo;
@@ -79,7 +78,9 @@ const fancyfetch = async (
 
   /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
   const fetchToUse =
-    typeof window?.fetch !== `undefined` ? window.fetch : nodeFetch;
+    typeof window?.fetch !== `undefined`
+      ? window.fetch
+      : await import(`node-fetch`);
   /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
   const maxAttempts = extras?.maxAttempts ?? 1;
   let attempts = 0;
