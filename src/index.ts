@@ -18,6 +18,12 @@ const fancyfetch = async (
   options: Fancyfetch[`options`],
   extras: Fancyfetch[`extras`]
 ): Promise<Response | null> => {
+  if (extras?.ssr === false && typeof window === `undefined`) return null;
+
+  const fetchToUse =
+    typeof window !== `undefined` ? `window` : await import(`node-fetch`);
+  const fetch = fetchToUse === `window` ? window.fetch : fetchToUse.default;
+
   if (typeof resource !== `string`)
     throw new Error(
       `Error in fancyfetch: A valid fetch resource was not provided\n\nresource: ${JSON.stringify(
@@ -76,14 +82,7 @@ const fancyfetch = async (
         extras.onRetryError
       )}`
     );
-  if (extras?.ssr === false && typeof window === `undefined`) return null;
 
-  /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
-  const fetchToUse =
-    typeof window?.fetch !== `undefined`
-      ? window.fetch
-      : await import(`node-fetch`);
-  /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
   const maxAttempts = extras?.maxAttempts ?? 1;
   let attempts = 0;
 
@@ -92,10 +91,8 @@ const fancyfetch = async (
     if (attempts > maxAttempts) return null;
 
     try {
-      /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
-      /* @ts-expect-error */
-      const response: Response = await fetchToUse(resource, {
-        /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
+      // @ts-expect-error
+      const response: Response = await fetch(resource, {
         highWaterMark: 1024 * 1024,
         ...options,
       });
