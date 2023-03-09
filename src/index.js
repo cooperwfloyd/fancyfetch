@@ -1,18 +1,3 @@
-import type {RequestInfo, RequestInit, Response} from 'node-fetch';
-
-interface Fancyfetch {
-  resource: RequestInfo;
-  options?: RequestInit | null | undefined;
-  extras?: {
-    ssr?: boolean;
-    maxAttempts?: number;
-    validateResponse?: (response: Response) => Promise<boolean> | boolean;
-    onError?: () => void;
-    onRetrySuccess?: () => void;
-    onRetryError?: () => void;
-  };
-}
-
 /*
   Think the entry point here should be something more like:
 
@@ -21,11 +6,7 @@ interface Fancyfetch {
     use that variable to dynamically import a client/index.js or server/index.js. node-fetch method should live in server/index.js
 */
 
-const fancyfetch = async (
-  resource: Fancyfetch[`resource`],
-  options: Fancyfetch[`options`],
-  extras: Fancyfetch[`extras`]
-): Promise<Response | null> => {
+const fancyfetch = async (resource, options, extras) => {
   if (extras?.ssr === false && typeof window === `undefined`) return null;
 
   const fetchToUse =
@@ -94,13 +75,13 @@ const fancyfetch = async (
   const maxAttempts = extras?.maxAttempts ?? 1;
   let attempts = 0;
 
-  const tryFetch = async (): Promise<Response | null> => {
+  const tryFetch = async () => {
     attempts++;
     if (attempts > maxAttempts) return null;
 
     try {
       // @ts-expect-error
-      const response: Response = await fetch(resource, {
+      const response = await fetch(resource, {
         highWaterMark: 1024 * 1024,
         ...options,
       });

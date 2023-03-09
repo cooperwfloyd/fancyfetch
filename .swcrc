@@ -16,8 +16,7 @@
     "parser": {
       "decorators": false,
       "dynamicImport": false,
-      "syntax": "typescript",
-      "tsx": false
+      "syntax": "ecmascript"
     },
     "target": "es2022"
   },

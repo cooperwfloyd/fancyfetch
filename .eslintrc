@@ -1,38 +1,21 @@
 {
   "env": {
-    "browser": false,
+    "browser": true,
     "es2022": true,
     "node": true
   },
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/all",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:import/errors",
-    "plugin:import/typescript",
     "plugin:prettier/recommended"
   ],
-  "ignorePatterns": [
-    "./dist",
-    "node_modules",
-    "**/src/*.d.ts",
-    "**/src/**/*.d.ts"
-  ],
-  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["dist", "node_modules"],
   "parserOptions": {
     "impliedStrict": true,
-    "project": ["./tsconfig.json"],
     "sourceType": "module"
   },
   "root": true,
   "rules": {
-    "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-magic-numbers": "off",
-    "@typescript-eslint/no-misused-promises": "error",
-    "@typescript-eslint/no-unnecessary-condition": "off",
-    "@typescript-eslint/no-unsafe-call": "error",
-    "@typescript-eslint/prefer-readonly-parameter-types": "off",
     "block-scoped-var": "error",
     "camelcase": "error",
     "eqeqeq": "error",

@@ -1,4 +1,4 @@
 {
-  "*.{js,mjs,ts}": "npx eslint --max-warnings=0 --fix",
-  "*.{js,mjs,ts,json,md,mdx,css,scss,sass}": "npx prettier --write"
+  "*.{js,mjs}": "npx eslint --max-warnings=0 --fix",
+  "*.{js,mjs,json,md,mdx,css,scss,sass}": "npx prettier --write"
 }
