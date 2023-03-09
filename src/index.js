@@ -117,7 +117,7 @@ const fancyfetch = async (resource, options, extras) => {
 
       if (validResponse) {
         if (attempts > 1) {
-          if (extrasToUse?.logging === true)
+          if (extrasToUse?.log === true)
             console.log(`fancyfetch fetch retry successful`);
 
           if (extrasToUse?.onRetrySuccess) {
@@ -129,7 +129,7 @@ const fancyfetch = async (resource, options, extras) => {
       } else {
         if (extrasToUse.retries === 1) return null;
 
-        if (extrasToUse?.logging === true)
+        if (extrasToUse?.log === true)
           console.error(
             `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying...`
           );
@@ -139,7 +139,7 @@ const fancyfetch = async (resource, options, extras) => {
       }
     } catch {
       if (extrasToUse.retries === 1) return null;
-      if (extrasToUse?.logging === true)
+      if (extrasToUse?.log === true)
         console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
       if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
       return await tryFetch();
@@ -160,7 +160,7 @@ const fancyfetch = async (resource, options, extras) => {
 
   if (result === null) {
     if (extrasToUse?.onError) {
-      if (extrasToUse?.logging === true) console.error(errorMessage);
+      if (extrasToUse?.log === true) console.error(errorMessage);
 
       extrasToUse.onError();
     } else {
