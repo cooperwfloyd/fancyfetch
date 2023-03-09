@@ -1,10 +1,10 @@
 const fancyfetch = async (resource, options, extras) => {
-  const fetch = extras?.fetch ?? global?.fetch ?? window?.fetch;
+  const fetchToUse = extras?.fetch ?? fetch ?? global?.fetch ?? window?.fetch;
 
-  if (typeof fetch !== `function`)
+  if (typeof fetchToUse !== `function`)
     throw new Error(
       `Error in fancyfetch: fetch must be a valid function.\n\nfetch: ${String(
-        fetch
+        fetchToUse
       )}\n\nextras.fetch: ${String(extras?.fetch)}`
     );
 
@@ -75,7 +75,7 @@ const fancyfetch = async (resource, options, extras) => {
     if (attempts > maxAttempts) return null;
 
     try {
-      const response = await fetch(resource, options);
+      const response = await fetchToUse(resource, options);
 
       const validResponse = extras?.validateResponse
         ? !!(await extras.validateResponse(response))
