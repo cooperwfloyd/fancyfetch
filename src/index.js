@@ -3,7 +3,7 @@ const fancyfetch = async (resource, options, extras) => {
     throw new Error(
       `Error in fancyfetch: extras.fetch must be a valid function.\n\nextras.fetch: ${String(
         extras?.fetch
-      )}\n\nextras.fetch: ${String(extras?.fetch)}`
+      )}`
     );
 
   const fetchToUse =
