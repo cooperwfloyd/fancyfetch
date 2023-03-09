@@ -1,21 +1,28 @@
-// TODO: rename maxAttempts to retries
-// TODO: add logging option that is true by default to toggle console
-// TODO: add strict option that is true by default that switches errors to console errors when false
 // TODO: add debug option to output info
 // TODO: documentation
 // TODO: typescript
 
 const fancyfetch = async (resource, options, extras) => {
-  if (typeof extras !== `undefined` && typeof extras?.fetch !== `function`)
+  const extrasToUse = {
+    log: true,
+    retries: 1,
+    ...extras,
+  };
+
+  if (
+    typeof extrasToUse !== `undefined` &&
+    typeof extrasToUse?.fetch !== `function`
+  )
     throw new Error(
       `Error in fancyfetch: extras.fetch must be a valid function.\n\nextras.fetch: ${String(
-        extras?.fetch
+        extrasToUse?.fetch
       )}`
     );
 
   const fetchToUse =
-    typeof extras !== `undefined` && typeof extras?.fetch === `function`
-      ? extras.fetch
+    typeof extrasToUse !== `undefined` &&
+    typeof extrasToUse?.fetch === `function`
+      ? extrasToUse.fetch
       : typeof fetch === `function`
       ? fetch
       : typeof global !== `undefined` && typeof global?.fetch === `function`
@@ -47,87 +54,94 @@ const fancyfetch = async (resource, options, extras) => {
         2
       )}`
     );
-  if (extras && typeof extras !== `object`)
+  if (extrasToUse && typeof extrasToUse !== `object`)
     throw new Error(
       `Error in fancyfetch: extras must be a valid object.\n\nextras: ${JSON.stringify(
-        extras,
+        extrasToUse,
         null,
         2
       )}`
     );
   if (
-    typeof extras?.maxAttempts === `number` &&
-    (!Number.isInteger(extras.maxAttempts) || extras.maxAttempts < 1)
+    typeof extrasToUse?.retries === `number` &&
+    (!Number.isInteger(extrasToUse.retries) || extrasToUse.retries < 1)
   )
     throw new Error(
-      `Error in fancyfetch: extras.maxAttempts must be a positive integer.\n\nextras.maxAttempts: ${extras.maxAttempts}`
+      `Error in fancyfetch: extras.retries must be a positive integer.\n\nextras.retries: ${extrasToUse.retries}`
     );
   if (
-    extras?.validateResponse &&
-    typeof extras?.validateResponse !== `function`
+    extrasToUse?.validateResponse &&
+    typeof extrasToUse?.validateResponse !== `function`
   )
     throw new Error(
       `Error in fancyfetch: extras.validateResponse must be a valid function.\n\nextras.validateResponse: ${String(
-        extras?.validateResponse
+        extrasToUse?.validateResponse
       )}`
     );
-  if (extras?.onError && typeof extras.onError !== `function`)
+  if (extrasToUse?.onError && typeof extrasToUse.onError !== `function`)
     throw new Error(
       `Error in fancyfetch: extras.onError must be a valid function.\n\nextras.onError: ${String(
-        extras.onError
+        extrasToUse.onError
       )}`
     );
-  if (extras?.onRetrySuccess && typeof extras.onRetrySuccess !== `function`)
+  if (
+    extrasToUse?.onRetrySuccess &&
+    typeof extrasToUse.onRetrySuccess !== `function`
+  )
     throw new Error(
       `Error in fancyfetch: extras.onRetrySuccess must be a valid function.\n\nextras.onRetrySuccess: ${String(
-        extras.onRetrySuccess
+        extrasToUse.onRetrySuccess
       )}`
     );
-  if (extras?.onRetryError && typeof extras.onRetryError !== `function`)
+  if (
+    extrasToUse?.onRetryError &&
+    typeof extrasToUse.onRetryError !== `function`
+  )
     throw new Error(
       `Error in fancyfetch: extras.onRetryError must be a valid function.\n\nextras.onRetryError: ${String(
-        extras.onRetryError
+        extrasToUse.onRetryError
       )}`
     );
-
-  const maxAttempts = extras?.maxAttempts ?? 1;
   let attempts = 0;
 
   const tryFetch = async () => {
     attempts++;
-    if (attempts > maxAttempts) return null;
+    if (attempts > extrasToUse.retries) return null;
 
     try {
       const response = await fetchToUse(resource, options);
 
-      const validResponse = extras?.validateResponse
-        ? !!(await extras.validateResponse(response))
+      const validResponse = extrasToUse?.validateResponse
+        ? !!(await extrasToUse.validateResponse(response))
         : true;
 
       if (validResponse) {
         if (attempts > 1) {
-          console.log(`fancyfetch fetch retry successful`);
+          if (extrasToUse?.logging === true)
+            console.log(`fancyfetch fetch retry successful`);
 
-          if (extras?.onRetrySuccess) {
-            extras.onRetrySuccess();
+          if (extrasToUse?.onRetrySuccess) {
+            extrasToUse.onRetrySuccess();
           }
         }
 
         return response;
       } else {
-        if (maxAttempts === 1) return null;
+        if (extrasToUse.retries === 1) return null;
 
-        console.error(
-          `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying...`
-        );
+        if (extrasToUse?.logging === true)
+          console.error(
+            `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying...`
+          );
 
-        if (extras?.onRetryError) extras.onRetryError();
+        if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
         return await tryFetch();
       }
     } catch {
-      if (maxAttempts === 1) return null;
-      console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
-      if (extras?.onRetryError) extras.onRetryError();
+      if (extrasToUse.retries === 1) return null;
+      if (extrasToUse?.logging === true)
+        console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
+      if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
       return await tryFetch();
     }
   };
@@ -142,12 +156,13 @@ const fancyfetch = async (resource, options, extras) => {
     options,
     null,
     2
-  )}\n\nextras: ${JSON.stringify(extras, null, 2)}`;
+  )}\n\nextras: ${JSON.stringify(extrasToUse, null, 2)}`;
 
   if (result === null) {
-    if (extras?.onError) {
-      console.error(errorMessage);
-      extras.onError();
+    if (extrasToUse?.onError) {
+      if (extrasToUse?.logging === true) console.error(errorMessage);
+
+      extrasToUse.onError();
     } else {
       throw new Error(errorMessage);
     }
