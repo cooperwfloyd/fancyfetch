@@ -1,6 +1,6 @@
 {
   "name": "@cooperwfloyd/fancyfetch",
-  "version": "0.13.5-beta",
+  "version": "0.13.6-beta",
   "type": "module",
   "license": "ISC",
   "main": "dist/index.js",
@@ -13,7 +13,8 @@
     "url": "https://github.com/cooperwfloyd/fancyfetch"
   },
   "dependencies": {
-    "isomorphic-fetch": "^3.0.0"
+    "isomorphic-fetch": "^3.0.0",
+    "node-fetch": "^3.3.0"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.57",
