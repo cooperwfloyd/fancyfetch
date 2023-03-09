@@ -71,8 +71,9 @@ const fancyfetch = async (resource, options, extras) => {
     if (attempts > maxAttempts) return null;
 
     try {
-      const optionsToUse = {highWaterMark: 1024 * 1024, ...options};
-      if (typeof window !== `undefined`) delete optionsToUse?.highWaterMark;
+      const optionsToUse = {...options};
+      if (typeof window === `undefined` && !options?.highWaterMark)
+        optionsToUse.highWaterMark = 1024 * 1024;
       const response = await fetch(resource, optionsToUse);
 
       const validResponse = extras?.validateResponse
