@@ -1,4 +1,11 @@
 const fancyfetch = async (resource, options, extras) => {
+  if (typeof extras !== `undefined` && typeof extras?.fetch === `function`)
+    throw new Error(
+      `Error in fancyfetch: extras.fetch must be a valid function.\n\nextras.fetch: ${String(
+        extras?.fetch
+      )}\n\nextras.fetch: ${String(extras?.fetch)}`
+    );
+
   const fetchToUse =
     typeof extras !== `undefined` && typeof extras?.fetch === `function`
       ? extras.fetch
@@ -12,9 +19,9 @@ const fancyfetch = async (resource, options, extras) => {
 
   if (typeof fetchToUse !== `function`)
     throw new Error(
-      `Error in fancyfetch: fetch must be a valid function.\n\nfetch: ${String(
+      `Error in fancyfetch: fetchToUse must be a valid function.\n\nfetchToUse: ${String(
         fetchToUse
-      )}\n\nextras.fetch: ${String(extras?.fetch)}`
+      )}`
     );
 
   if (typeof resource !== `string`)
