@@ -1,7 +1,9 @@
 // TODO: retryDelay
 // TODO: add debug option to output info
-// TODO: documentation
+// TODO: readme
 // TODO: typescript
+// TODO: package.json description
+// TODO: package.json keywords
 
 const fancyfetch = async (resource, options, extras) => {
   const extrasToUse = {
