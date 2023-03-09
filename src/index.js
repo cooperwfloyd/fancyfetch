@@ -1,3 +1,4 @@
+// TODO: retryDelay
 // TODO: add debug option to output info
 // TODO: documentation
 // TODO: typescript
