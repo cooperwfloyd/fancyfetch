@@ -1,8 +1,12 @@
-import isomorphicFetch from 'isomorphic-fetch';
-
 const fancyfetch = async (resource, options, extras) => {
-  const fetch =
-    typeof extras?.fetch !== `function` ? isomorphicFetch : extras?.fetch;
+  const fetch = extras?.fetch ?? global?.fetch ?? window?.fetch;
+
+  if (typeof fetch !== `function`)
+    throw new Error(
+      `Error in fancyfetch: fetch must be a valid function.\n\nfetch: ${String(
+        fetch
+      )}\n\nextras.fetch: ${String(extras?.fetch)}`
+    );
 
   if (typeof resource !== `string`)
     throw new Error(
@@ -71,10 +75,7 @@ const fancyfetch = async (resource, options, extras) => {
     if (attempts > maxAttempts) return null;
 
     try {
-      const optionsToUse = {...options};
-      if (typeof window === `undefined` && !options?.highWaterMark)
-        optionsToUse.highWaterMark = 1024 * 1024;
-      const response = await fetch(resource, optionsToUse);
+      const response = await fetch(resource, options);
 
       const validResponse = extras?.validateResponse
         ? !!(await extras.validateResponse(response))
