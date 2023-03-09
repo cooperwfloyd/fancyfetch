@@ -1,5 +1,5 @@
 const fancyfetch = async (resource, options, extras) => {
-  if (typeof extras !== `undefined` && typeof extras?.fetch === `function`)
+  if (typeof extras !== `undefined` && typeof extras?.fetch !== `function`)
     throw new Error(
       `Error in fancyfetch: extras.fetch must be a valid function.\n\nextras.fetch: ${String(
         extras?.fetch
