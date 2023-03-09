@@ -1,6 +1,9 @@
 // TODO: rename maxAttempts to retries
 // TODO: add logging option that is true by default to toggle console
 // TODO: add strict option that is true by default that switches errors to console errors when false
+// TODO: add debug option to output info
+// TODO: documentation
+// TODO: typescript
 
 const fancyfetch = async (resource, options, extras) => {
   if (typeof extras !== `undefined` && typeof extras?.fetch !== `function`)
