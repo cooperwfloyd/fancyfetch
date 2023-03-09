@@ -1,5 +1,14 @@
 const fancyfetch = async (resource, options, extras) => {
-  const fetchToUse = extras?.fetch ?? fetch ?? global?.fetch ?? window?.fetch;
+  const fetchToUse =
+    typeof extras !== `undefined` && typeof extras?.fetch === `function`
+      ? extras.fetch
+      : typeof fetch === `function`
+      ? fetch
+      : typeof global !== `undefined` && typeof global?.fetch === `function`
+      ? global.fetch
+      : typeof window !== `undefined` && typeof window?.fetch === `function`
+      ? window.fetch
+      : null;
 
   if (typeof fetchToUse !== `function`)
     throw new Error(
