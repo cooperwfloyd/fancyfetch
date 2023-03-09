@@ -1,17 +1,8 @@
-/*
-  Think the entry point here should be something more like:
-
-  index.js
-    check potential fetch method and assign browser or server (or, eventually, custom) to a fetchType variable. should be conditional based on extras.ssr and current environment
-    use that variable to dynamically import a client/index.js or server/index.js. node-fetch method should live in server/index.js
-*/
+import isomorphicFetch from 'isomorphic-fetch';
 
 const fancyfetch = async (resource, options, extras) => {
-  if (extras?.ssr === false && typeof window === `undefined`) return null;
-
-  const fetchToUse =
-    typeof window !== `undefined` ? `window` : await import(`node-fetch`);
-  const fetch = fetchToUse === `window` ? window.fetch : fetchToUse.default;
+  const fetch =
+    typeof extras?.fetch !== `function` ? isomorphicFetch : extras?.fetch;
 
   if (typeof resource !== `string`)
     throw new Error(
@@ -80,11 +71,9 @@ const fancyfetch = async (resource, options, extras) => {
     if (attempts > maxAttempts) return null;
 
     try {
-      // @ts-expect-error
-      const response = await fetch(resource, {
-        highWaterMark: 1024 * 1024,
-        ...options,
-      });
+      const optionsToUse = {highWaterMark: 1024 * 1024, ...options};
+      if (typeof window === `undefined`) delete optionsToUse?.highWaterMark;
+      const response = await fetch(resource, optionsToUse);
 
       const validResponse = extras?.validateResponse
         ? !!(await extras.validateResponse(response))
