@@ -40,6 +40,7 @@ const fancyfetch = async (resource, options, extras) => {
     );
 
   if (typeof resource !== `string`)
+    // BUG: this can be any type of request https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters
     throw new Error(
       `Error in fancyfetch: A valid fetch resource was not provided\n\nresource: ${JSON.stringify(
         resource,
