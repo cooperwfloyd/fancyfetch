@@ -147,18 +147,14 @@ const fancyfetch = async (resource, options, extras) => {
 
         if (extrasToUse?.log === true)
           console.error(
-            `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying...`
+            `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying${
+              extrasToUse?.retryDelay ? ` in ${extrasToUse?.retryDelay} ms` : ``
+            }...`
           );
 
         if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
-
-        if (extrasToUse?.retryDelay) {
-          setTimeout(async () => {
-            return await tryFetch();
-          }, extrasToUse.retryDelay);
-        } else {
-          return await tryFetch();
-        }
+        if (extrasToUse?.retryDelay) await sleep(extrasToUse?.retryDelay);
+        return await tryFetch();
       }
     } catch {
       if (extrasToUse.maxAttempts === 1) return null;
