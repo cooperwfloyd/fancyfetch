@@ -22,10 +22,10 @@
   },
   "minify": true,
   "module": {
+    "type": "commonjs",
     "lazy": false,
-    "noInterop": true,
+    "noInterop": false,
     "strict": true,
-    "strictMode": true,
-    "type": "nodenext"
+    "strictMode": true
   }
 }

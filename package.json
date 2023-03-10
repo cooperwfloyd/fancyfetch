@@ -1,7 +1,6 @@
 {
   "name": "@cooperwfloyd/fancyfetch",
   "version": "1.0.1",
-  "type": "module",
   "license": "ISC",
   "main": "dist/index.js",
   "engines": {
@@ -46,7 +45,6 @@
     "prepublishOnly": "npm i && npm run build",
     "prepare": "husky install",
     "prettier": "npx prettier --write .",
-    "start": "NODE_ENV='production' node --es-module-specifier-resolution=node \"./dist/test/index.js\"",
     "test": "npx eslint \"./src/**/*.js\" \"./src/*.js\" --max-warnings=0 --fix"
   },
   "description": "A simple, lightweight and isomorphic extension of the Fetch API that allows for graceful error handling and response validation, automatic retries, and the ability to bring your own Fetch API package.",
@@ -95,10 +93,6 @@
     "es6",
     "2022",
     "2023",
-    "esnext",
-    "module",
-    "ESM",
-    "ES module",
-    "ECMAScript module"
+    "esnext"
   ]
 }

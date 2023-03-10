@@ -1,6 +1,6 @@
 # 💅 fancyfetch
 
-`fancyfetch` is a simple, lightweight and isomorphic ES Module that extends the `fetch` API to allow for graceful error handling, response validation, automatic retries, and the ability to use any `fetch` API package.
+`fancyfetch` is a simple, lightweight and isomorphic extension of the `fetch` API to allow for graceful error handling, response validation, automatic retries, and the ability to use any `fetch` API package.
 
 ## 🙂 Basic usage
 
