@@ -1,6 +1,6 @@
 {
   "name": "@cooperwfloyd/fancyfetch",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "type": "module",
   "license": "ISC",
   "main": "dist/index.js",
@@ -97,6 +97,8 @@
     "2023",
     "esnext",
     "module",
-    "ESM"
+    "ESM",
+    "ES module",
+    "ECMAScript module"
   ]
 }
