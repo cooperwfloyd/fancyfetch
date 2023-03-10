@@ -62,8 +62,8 @@ const data = await fancyfetch(
 
 ## ✏️ Reference
 
-- `resource` (required): <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters" target="_blank" rel="noopener noreferrer">A valid `fetch.resource`</a>
-- `options`: <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters" target="_blank" rel="noopener noreferrer">A valid `fetch.options` </a>
+- `resource` (required): <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters" target="_blank" rel="noopener noreferrer">fetch.resource</a>
+- `options`: <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters" target="_blank" rel="noopener noreferrer">fetch.options</a>
 - `extras`
   - `fetch`: function
     - The `fetch` API (ex. `fetch`, `node-fetch`, `isomorphic-fetch`) that requests should use (default, in order of specificity: `fetch`, `global.fetch`, `window.fetch`)
