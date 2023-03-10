@@ -109,6 +109,15 @@ const fancyfetch = async (resource, options, extras) => {
       )}`
     );
 
+  const sleep = (ms) => {
+    if (typeof ms !== `number` && !Number.isInteger(ms))
+      throw new Error(
+        `Error in sleep: ms must be a positive integer.\n\nms: ${ms}`
+      );
+
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
   let attempts = 0;
 
   const tryFetch = async () => {
@@ -154,16 +163,14 @@ const fancyfetch = async (resource, options, extras) => {
     } catch {
       if (extrasToUse.maxAttempts === 1) return null;
       if (extrasToUse?.log === true)
-        console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
+        console.error(
+          `Error in fancyfetch: Failed to fetch. Retrying${
+            extrasToUse?.retryDelay ? ` in ${extrasToUse?.retryDelay} ms` : ``
+          }...`
+        );
       if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
-
-      if (extrasToUse?.retryDelay) {
-        await setTimeout(async () => {
-          return await tryFetch();
-        }, extrasToUse.retryDelay);
-      } else {
-        return await tryFetch();
-      }
+      if (extrasToUse?.retryDelay) await sleep(extrasToUse?.retryDelay);
+      return await tryFetch();
     }
   };
 
