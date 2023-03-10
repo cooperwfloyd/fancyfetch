@@ -1,20 +1,20 @@
 # 💅 fancyfetch
 
-`fancyfetch` is a simple, lightweight and isomorphic ES Module that extends the Fetch API to allow for graceful error handling, response validation, automatic retries, and the ability to use any `fetch` API package.
+`fancyfetch` is a simple, lightweight and isomorphic ES Module that extends the `fetch` API to allow for graceful error handling, response validation, automatic retries, and the ability to use any `fetch` API package.
 
-## ⚙️ Basic usage
+## 🙂 Basic usage
 
 Use it client-side in the browser or on the server just like the standard `fetch` API — `fancyfetch` will automatically locate and use Node's global `fetch` API or your browser's native `fetch` API
 
 ```js
 import fancyfetch from '@cooperwfloyd/fancyfetch';
 
-const data = await fancyfetch('https://www.example.com', {method: 'POST'});
+const data = await fancyfetch('https://www.example.com');
 ```
 
 ## 🥳 Fancy usage
 
-The third argument is available for all of fancyfetch's extensions, including:
+**The third argument is available for all of fancyfetch's extensions, including:**
 
 👇 The ability to use a custom `fetch` API instead of the global default
 
