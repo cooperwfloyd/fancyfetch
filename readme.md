@@ -4,7 +4,7 @@
 
 ## 🙂 Basic usage
 
-Use it client-side in the browser or on the server just like the standard `fetch` API — `fancyfetch` will automatically locate and use Node's global `fetch` API or your browser's native `fetch` API.
+Import using the default export from `@cooperwfloyd/fancyfetch`. `fancyfetch` can be used client-side in the browser or on the server just like the standard `fetch` API — `fancyfetch` will automatically locate and use Node's global `fetch` API or your browser's native `fetch` API.
 
 ```js
 import fancyfetch from '@cooperwfloyd/fancyfetch';
@@ -42,7 +42,7 @@ const data = await fancyfetch(
     },
   },
   {
-    retries: 10,
+    maxAttempts: 10,
     retryDelay: 1000,
     validateResponse: async (response) => {
       try {
@@ -68,8 +68,10 @@ const data = await fancyfetch(
   - `fetch`: function
     - The `fetch` API (ex. `fetch`, `node-fetch`, `isomorphic-fetch`) that requests should use (default, in order of specificity: `fetch`, `global.fetch`, `window.fetch`)
   - `log`: boolean
-    - Dictates whether or not fancyfetch's console statements should be fired (default: `true`)
+    - Dictates whether or not `fancyfetch`'s console statements should be fired (default: `true`)
   - `validateResponse`: function
-    - This callback function allows for checking the response to determine it's validity. It sends the response as an argument and should return a truthy or falsy value since fancyfetch will use a boolean to determine the response's validity.
-  - `retries`: number
-    - Specifies the maximum number of times that the request should be attempted (default: `1`). The `validateResponse` callback should be used whenever `retries` is greater than one since fancyfetch will not know when to break out of the recursive retry loop without it.
+    - This callback function allows for checking the response to determine it's validity. It sends the response as an argument and should return a truthy or falsy value since `fancyfetch` will use a boolean to determine the response's validity.
+  - `maxAttempts`: number
+    - Specifies the maximum number of times that the request should be attempted (default: `1`). The `validateResponse` callback should be used whenever `maxAttempts` is greater than one since `fancyfetch` will not know when to break out of the recursive retry loop without it.
+  - `retryDelay`: number
+    - Specifies the number of milliseconds that `fancyfetch` should wait before retrying a failed request.

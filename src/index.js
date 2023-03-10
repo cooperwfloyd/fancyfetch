@@ -1,4 +1,3 @@
-// TODO: retryDelay
 // TODO: add debug option to output info
 // TODO: readme
 // TODO: typescript
@@ -6,7 +5,7 @@
 const fancyfetch = async (resource, options, extras) => {
   const extrasToUse = {
     log: true,
-    retries: 1,
+    maxAttempts: 1,
     ...extras,
   };
 
@@ -64,11 +63,17 @@ const fancyfetch = async (resource, options, extras) => {
       )}`
     );
   if (
-    typeof extrasToUse?.retries === `number` &&
-    (!Number.isInteger(extrasToUse.retries) || extrasToUse.retries < 1)
+    typeof extrasToUse?.maxAttempts === `number` &&
+    (!Number.isInteger(extrasToUse.maxAttempts) || extrasToUse.maxAttempts < 1)
   )
     throw new Error(
-      `Error in fancyfetch: extras.retries must be a positive integer.\n\nextras.retries: ${extrasToUse.retries}`
+      `Error in fancyfetch: extras.maxAttempts must be a positive integer.\n\nextras.maxAttempts: ${extrasToUse.maxAttempts}`
+    );
+  if (extrasToUse?.retryDelay && typeof extrasToUse.retryDelay !== `number`)
+    throw new Error(
+      `Error in fancyfetch: extras.retryDelay must be a positive integer.\n\nextras.retryDelay: ${String(
+        extrasToUse.retryDelay
+      )}`
     );
   if (
     extrasToUse?.validateResponse &&
@@ -103,11 +108,12 @@ const fancyfetch = async (resource, options, extras) => {
         extrasToUse.onRetryError
       )}`
     );
+
   let attempts = 0;
 
   const tryFetch = async () => {
     attempts++;
-    if (attempts > extrasToUse.retries) return null;
+    if (attempts > extrasToUse.maxAttempts) return null;
 
     try {
       const response = await fetchToUse(resource, options);
@@ -128,7 +134,7 @@ const fancyfetch = async (resource, options, extras) => {
 
         return response;
       } else {
-        if (extrasToUse.retries === 1) return null;
+        if (extrasToUse.maxAttempts === 1) return null;
 
         if (extrasToUse?.log === true)
           console.error(
@@ -136,14 +142,28 @@ const fancyfetch = async (resource, options, extras) => {
           );
 
         if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
-        return await tryFetch();
+
+        if (extrasToUse?.retryDelay) {
+          setTimeout(async () => {
+            return await tryFetch();
+          }, extrasToUse.retryDelay);
+        } else {
+          return await tryFetch();
+        }
       }
     } catch {
-      if (extrasToUse.retries === 1) return null;
+      if (extrasToUse.maxAttempts === 1) return null;
       if (extrasToUse?.log === true)
         console.error(`Error in fancyfetch: Failed to fetch. Retrying...`);
       if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
-      return await tryFetch();
+
+      if (extrasToUse?.retryDelay) {
+        setTimeout(async () => {
+          return await tryFetch();
+        }, extrasToUse.retryDelay);
+      } else {
+        return await tryFetch();
+      }
     }
   };
 
