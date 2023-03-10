@@ -9,10 +9,7 @@ const fancyfetch = async (resource, options, extras) => {
     ...extras,
   };
 
-  if (
-    typeof extrasToUse !== `undefined` &&
-    typeof extrasToUse?.fetch !== `function`
-  )
+  if (extrasToUse?.fetch && typeof extrasToUse?.fetch !== `function`)
     throw new Error(
       `Error in fancyfetch: extras.fetch must be a valid function.\n\nextras.fetch: ${String(
         extrasToUse?.fetch
