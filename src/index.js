@@ -158,7 +158,7 @@ const fancyfetch = async (resource, options, extras) => {
       if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
 
       if (extrasToUse?.retryDelay) {
-        setTimeout(async () => {
+        await setTimeout(async () => {
           return await tryFetch();
         }, extrasToUse.retryDelay);
       } else {
