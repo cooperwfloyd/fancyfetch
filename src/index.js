@@ -2,6 +2,7 @@
 // TODO: readme
 // TODO: typescript
 // TODO: add an option for max wait time
+// TODO: TOC
 
 const fancyfetch = async (resource, options, extras) => {
   const extrasToUse = {
@@ -193,4 +194,4 @@ const fancyfetch = async (resource, options, extras) => {
   return result;
 };
 
-export default fancyfetch;
+module.exports = fancyfetch;
