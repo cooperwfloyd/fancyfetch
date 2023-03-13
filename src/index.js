@@ -125,9 +125,9 @@ const fancyfetch = async (resource, options, extras) => {
 
     try {
       const response = await fetchToUse(resource, options);
-
+      const clone = response.clone();
       const validResponse = extrasToUse?.validateResponse
-        ? !!(await extrasToUse.validateResponse(response))
+        ? await extrasToUse.validateResponse(clone)
         : true;
 
       if (validResponse) {
