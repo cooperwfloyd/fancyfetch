@@ -6,16 +6,28 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:@typescript-eslint/all",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:import/errors",
+    "plugin:import/typescript",
     "plugin:prettier/recommended"
   ],
-  "ignorePatterns": ["dist", "node_modules"],
+  "ignorePatterns": ["**/dist/**/*", "**/node_modules/**/*"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "impliedStrict": true,
+    "project": ["./tsconfig.json"],
     "sourceType": "module"
   },
   "root": true,
   "rules": {
+    "@typescript-eslint/no-magic-numbers": "off",
+    "@typescript-eslint/no-misused-promises": "error",
+    "@typescript-eslint/return-await": "off",
+    "@typescript-eslint/no-unnecessary-condition": "off",
+    "@typescript-eslint/no-unsafe-call": "error",
+    "@typescript-eslint/prefer-readonly-parameter-types": "off",
     "block-scoped-var": "error",
     "camelcase": "error",
     "eqeqeq": "error",

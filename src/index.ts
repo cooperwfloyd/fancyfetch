@@ -1,10 +1,15 @@
+import type Fancyfetch from './types/fancyfetch';
 // TODO: add debug option to output info
 // TODO: readme
 // TODO: typescript
 // TODO: add an option for max wait time
 // TODO: TOC
 
-const fancyfetch = async (resource, options, extras) => {
+const fancyfetch = async (
+  resource: Fancyfetch['resource'],
+  options?: Fancyfetch['options'],
+  extras?: Fancyfetch['extras']
+): Promise<Response> => {
   const extrasToUse = {
     log: true,
     maxAttempts: 1,
@@ -53,14 +58,6 @@ const fancyfetch = async (resource, options, extras) => {
         2
       )}`
     );
-  if (extrasToUse && typeof extrasToUse !== `object`)
-    throw new Error(
-      `Error in fancyfetch: extras must be a valid object.\n\nextras: ${JSON.stringify(
-        extrasToUse,
-        null,
-        2
-      )}`
-    );
   if (
     typeof extrasToUse?.maxAttempts === `number` &&
     (!Number.isInteger(extrasToUse.maxAttempts) || extrasToUse.maxAttempts < 1)
@@ -68,7 +65,10 @@ const fancyfetch = async (resource, options, extras) => {
     throw new Error(
       `Error in fancyfetch: extras.maxAttempts must be a positive integer.\n\nextras.maxAttempts: ${extrasToUse.maxAttempts}`
     );
-  if (extrasToUse?.retryDelay && typeof extrasToUse.retryDelay !== `number`)
+  if (
+    typeof extrasToUse?.retryDelay === `number` &&
+    (!Number.isInteger(extrasToUse.maxAttempts) || extrasToUse.maxAttempts < 1)
+  )
     throw new Error(
       `Error in fancyfetch: extras.retryDelay must be a positive integer.\n\nextras.retryDelay: ${String(
         extrasToUse.retryDelay
@@ -108,18 +108,19 @@ const fancyfetch = async (resource, options, extras) => {
       )}`
     );
 
-  const sleep = (ms) => {
+  const sleep = async (ms: number): Promise<unknown> => {
     if (typeof ms !== `number` && !Number.isInteger(ms))
       throw new Error(
-        `Error in sleep: ms must be a positive integer.\n\nms: ${ms}`
+        `Error in sleep: ms must be a positive integer.\n\nms: ${String(ms)}`
       );
 
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return await new Promise((resolve) => setTimeout(resolve, ms));
   };
 
   let attempts = 0;
 
-  const tryFetch = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tryFetch = async (): Promise<any> => {
     attempts++;
     if (attempts > extrasToUse.maxAttempts) return null;
 
@@ -131,7 +132,7 @@ const fancyfetch = async (resource, options, extras) => {
 
       if (validResponse) {
         if (attempts > 1) {
-          if (extrasToUse?.log === true)
+          if (extrasToUse?.log)
             console.log(`fancyfetch fetch retry successful`);
 
           if (extrasToUse?.onRetrySuccess) {
@@ -143,31 +144,40 @@ const fancyfetch = async (resource, options, extras) => {
       } else {
         if (extrasToUse.maxAttempts === 1) return null;
 
-        if (extrasToUse?.log === true)
+        if (extrasToUse?.log)
           console.error(
             `Error in fancyfetch: Fetch was successful but didn't pass validateResponse. Retrying${
-              extrasToUse?.retryDelay ? ` in ${extrasToUse?.retryDelay} ms` : ``
+              extrasToUse?.retryDelay !== undefined
+                ? ` in ${String(extrasToUse.retryDelay)} ms`
+                : ``
             }...`
           );
 
         if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
-        if (extrasToUse?.retryDelay) await sleep(extrasToUse?.retryDelay);
+        if (extrasToUse?.retryDelay !== undefined)
+          await sleep(extrasToUse?.retryDelay);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return await tryFetch();
       }
     } catch {
       if (extrasToUse.maxAttempts === 1) return null;
-      if (extrasToUse?.log === true)
+      if (extrasToUse?.log)
         console.error(
           `Error in fancyfetch: Failed to fetch. Retrying${
-            extrasToUse?.retryDelay ? ` in ${extrasToUse?.retryDelay} ms` : ``
+            extrasToUse?.retryDelay !== undefined
+              ? ` in ${extrasToUse?.retryDelay} ms`
+              : ``
           }...`
         );
       if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
-      if (extrasToUse?.retryDelay) await sleep(extrasToUse?.retryDelay);
+      if (extrasToUse?.retryDelay !== undefined)
+        await sleep(extrasToUse?.retryDelay);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return await tryFetch();
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const result = await tryFetch();
 
   const errorMessage = `Error in fancyfetch: No successful responses were returned.\n\nresource: ${JSON.stringify(
@@ -182,7 +192,7 @@ const fancyfetch = async (resource, options, extras) => {
 
   if (result === null) {
     if (extrasToUse?.onError) {
-      if (extrasToUse?.log === true) console.error(errorMessage);
+      if (extrasToUse?.log) console.error(errorMessage);
 
       extrasToUse.onError();
     } else {
@@ -190,6 +200,7 @@ const fancyfetch = async (resource, options, extras) => {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return result;
 };
 

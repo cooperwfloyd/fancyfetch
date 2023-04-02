@@ -4,6 +4,7 @@
       "node": 18
     }
   },
+  "exclude": "/types",
   "jsc": {
     "baseUrl": ".",
     "loose": false,
@@ -16,7 +17,8 @@
     "parser": {
       "decorators": false,
       "dynamicImport": false,
-      "syntax": "ecmascript"
+      "syntax": "typescript",
+      "tsx": false
     },
     "target": "es2022"
   },
