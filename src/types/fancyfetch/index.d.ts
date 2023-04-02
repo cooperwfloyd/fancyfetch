@@ -1,8 +1,8 @@
-export default interface Fancyfetch {
-  resource: RequestInfo;
+export declare function fancyfetch(
+  resource: RequestInfo,
   options?: RequestInit & {
     highWaterMark?: number;
-  };
+  },
   extras?: {
     fetch?: () => Promise<Response>;
     log?: boolean;
@@ -14,5 +14,9 @@ export default interface Fancyfetch {
     onRetryError: () => any;
     onRetrySuccess: () => any;
     /* eslint-enable @typescript-eslint/no-explicit-any */
-  };
-}
+  }
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+): Promise<any>;
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+export default fancyfetch;

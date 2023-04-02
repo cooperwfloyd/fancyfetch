@@ -5,11 +5,7 @@ import type Fancyfetch from './types/fancyfetch';
 // TODO: add an option for max wait time
 // TODO: TOC
 
-const fancyfetch = async (
-  resource: Fancyfetch['resource'],
-  options?: Fancyfetch['options'],
-  extras?: Fancyfetch['extras']
-): Promise<Response> => {
+const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
   const extrasToUse = {
     log: true,
     maxAttempts: 1,
