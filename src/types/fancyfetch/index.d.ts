@@ -11,8 +11,8 @@ export declare function fancyfetch(
     retryDelay?: number;
     /* eslint-disable @typescript-eslint/no-explicit-any */
     onError?: () => any;
-    onRetryError: () => any;
-    onRetrySuccess: () => any;
+    onRetryError?: () => any;
+    onRetrySuccess?: () => any;
     /* eslint-enable @typescript-eslint/no-explicit-any */
   }
   /* eslint-disable @typescript-eslint/no-explicit-any */
