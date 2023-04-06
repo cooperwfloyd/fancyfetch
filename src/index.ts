@@ -55,15 +55,19 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
       )}`
     );
   if (
-    typeof extrasToUse?.maxAttempts === `number` &&
-    (!Number.isInteger(extrasToUse.maxAttempts) || extrasToUse.maxAttempts < 1)
+    extrasToUse?.maxAttempts &&
+    (typeof extrasToUse?.maxAttempts !== `number` ||
+      !Number.isInteger(extrasToUse.maxAttempts) ||
+      extrasToUse.maxAttempts < 1)
   )
     throw new Error(
       `Error in fancyfetch: extras.maxAttempts must be a positive integer.\n\nextras.maxAttempts: ${extrasToUse.maxAttempts}`
     );
   if (
-    typeof extrasToUse?.retryDelay === `number` &&
-    (!Number.isInteger(extrasToUse.maxAttempts) || extrasToUse.maxAttempts < 1)
+    extrasToUse?.retryDelay &&
+    (typeof extrasToUse?.retryDelay !== `number` ||
+      !Number.isInteger(extrasToUse.retryDelay) ||
+      extrasToUse.retryDelay < 1)
   )
     throw new Error(
       `Error in fancyfetch: extras.retryDelay must be a positive integer.\n\nextras.retryDelay: ${String(

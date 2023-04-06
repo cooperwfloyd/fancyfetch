@@ -28,6 +28,7 @@
     "@typescript-eslint/no-unnecessary-condition": "off",
     "@typescript-eslint/no-unsafe-call": "error",
     "@typescript-eslint/prefer-readonly-parameter-types": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
     "block-scoped-var": "error",
     "camelcase": "error",
     "eqeqeq": "error",
