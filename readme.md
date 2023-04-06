@@ -46,8 +46,7 @@ const data = await fancyfetch(
     retryDelay: 1000,
     validateResponse: async (response) => {
       try {
-        const clone = await response?.clone();
-        const json = await clone?.json();
+        const json = await response?.json();
         return !!json?.data;
       } catch {
         return false;
