@@ -125,9 +125,15 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
     if (attempts > extrasToUse.maxAttempts) return null;
 
     try {
-      const response = await fetchToUse(resource, options);
+      const response = await fetchToUse(
+        resource,
+        // @ts-expect-error proper types are already satisfied here
+        options
+      );
+
       const validResponse = extrasToUse?.validateResponse
-        ? await extrasToUse.validateResponse(response.clone())
+        ? // @ts-expect-error proper types are already satisfied here
+          await extrasToUse.validateResponse(response.clone())
         : true;
 
       if (validResponse) {

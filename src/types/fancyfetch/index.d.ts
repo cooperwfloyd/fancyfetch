@@ -1,9 +1,17 @@
+import type {RequestInfo, RequestInit, Response} from '@types/node-fetch';
+import type {URL} from '@types/node/url';
+
 export interface FancyfetchOptions extends RequestInit {
   highWaterMark?: number;
 }
 
 export interface FancyfetchExtras {
-  fetch?: () => Promise<Response>;
+  fetch?: (
+    /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+    resource: RequestInfo | URL,
+    /* eslint-enable @typescript-eslint/no-redundant-type-constituents */
+    options: FancyfetchOptions
+  ) => Promise<Response>;
   log?: boolean;
   validateResponse?: (response: Response) => Promise<boolean> | boolean;
   maxAttempts?: number;
@@ -16,11 +24,11 @@ export interface FancyfetchExtras {
 }
 
 export declare function fancyfetch(
-  resource: RequestInfo,
+  /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+  resource: RequestInfo | URL,
+  /* eslint-enable @typescript-eslint/no-redundant-type-constituents */
   options?: FancyfetchOptions,
   extras?: FancyfetchExtras
-  /* eslint-disable @typescript-eslint/no-explicit-any */
 ): Promise<Response>;
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export default fancyfetch;
