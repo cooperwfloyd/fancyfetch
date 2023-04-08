@@ -124,6 +124,7 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
     if (attempts > extrasToUse.maxAttempts) return null;
 
     try {
+      // TODO: can the arguments here be 100% generic instead of resource and options?
       const response = await fetchToUse(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         resource,
