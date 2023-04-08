@@ -20,8 +20,7 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
     );
 
   const fetchToUse =
-    typeof extrasToUse !== `undefined` &&
-    typeof extrasToUse?.fetch === `function`
+    typeof extrasToUse?.fetch && typeof extrasToUse?.fetch === `function`
       ? extrasToUse.fetch
       : typeof fetch === `function`
       ? fetch
@@ -126,8 +125,9 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
 
     try {
       const response = await fetchToUse(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         resource,
-        // @ts-expect-error proper types are already satisfied here
+        // @ts-expect-error proper types are already satisfied here since this is a generic function
         options
       );
 

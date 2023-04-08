@@ -6,12 +6,7 @@ export interface FancyfetchOptions extends RequestInit {
 }
 
 export interface FancyfetchExtras {
-  fetch?: (
-    /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
-    resource: RequestInfo | URL,
-    /* eslint-enable @typescript-eslint/no-redundant-type-constituents */
-    options: FancyfetchOptions
-  ) => Promise<Response>;
+  fetch?: <T>(...args: T) => Promise<Response>;
   log?: boolean;
   validateResponse?: (response: Response) => Promise<boolean> | boolean;
   maxAttempts?: number;
