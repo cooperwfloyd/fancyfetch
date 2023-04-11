@@ -1,14 +1,17 @@
-import type {RequestInfo, RequestInit, Response} from '@types/node-fetch';
-import type {URL} from '@types/node/url';
-
-export interface FancyfetchOptions extends RequestInit {
-  highWaterMark?: number;
-}
+import type {
+  RequestInfo as NodeFetchRequestInfo,
+  RequestInit as NodeFetchRequestInit,
+  Response,
+} from '@types/node-fetch';
 
 export interface Fetch {
-  /* eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents */
-  resource: RequestInfo | URL;
-  options?: FancyfetchOptions;
+  resource: RequestInfo | (NodeFetchRequestInfo & RequestInfo);
+  options?:
+    | RequestInit
+    | (NodeFetchRequestInit &
+        RequestInit & {
+          highWaterMark?: number | undefined;
+        });
 }
 
 export interface FancyfetchExtras {
