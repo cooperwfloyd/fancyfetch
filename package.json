@@ -1,6 +1,6 @@
 {
   "name": "@cooperwfloyd/fancyfetch",
-  "version": "1.1.5",
+  "version": "1.1.6-typescript.0",
   "license": "ISC",
   "main": "dist/index.js",
   "types": "dist/types/fancyfetch/index.d.ts",
