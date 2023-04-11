@@ -1,7 +1,6 @@
 import type Fancyfetch from './types/fancyfetch';
 // TODO: add debug option to output info
 // TODO: readme
-// TODO: typescript
 // TODO: add an option for max wait time
 // TODO: TOC
 

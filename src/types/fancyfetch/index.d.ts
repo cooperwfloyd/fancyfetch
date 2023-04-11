@@ -5,8 +5,17 @@ export interface FancyfetchOptions extends RequestInit {
   highWaterMark?: number;
 }
 
+export interface Fetch {
+  /* eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents */
+  resource: RequestInfo | URL;
+  options?: FancyfetchOptions;
+}
+
 export interface FancyfetchExtras {
-  fetch?: <T>(...args: T) => Promise<Response>;
+  fetch?: (
+    resource: Fetch['resource'],
+    options?: Fetch['options']
+  ) => Promise<Response>;
   log?: boolean;
   validateResponse?: (response: Response) => Promise<boolean> | boolean;
   maxAttempts?: number;
@@ -19,10 +28,8 @@ export interface FancyfetchExtras {
 }
 
 export declare function fancyfetch(
-  /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
-  resource: RequestInfo | URL,
-  /* eslint-enable @typescript-eslint/no-redundant-type-constituents */
-  options?: FancyfetchOptions,
+  resource: Fetch['resource'],
+  options?: Fetch['options'],
   extras?: FancyfetchExtras
 ): Promise<Response>;
 
