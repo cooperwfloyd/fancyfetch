@@ -105,7 +105,6 @@
     "esnext"
   ],
   "dependencies": {
-    "@types/node": "^18.15.11",
-    "@types/node-fetch": "^2.6.3"
+    "node-fetch": "^3.3.1"
   }
 }

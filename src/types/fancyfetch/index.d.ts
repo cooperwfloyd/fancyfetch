@@ -2,7 +2,7 @@ import type {
   RequestInfo as NodeFetchRequestInfo,
   RequestInit as NodeFetchRequestInit,
   Response,
-} from '@types/node-fetch';
+} from 'node-fetch';
 
 export interface Fetch {
   resource: RequestInfo | (NodeFetchRequestInfo & RequestInfo);
