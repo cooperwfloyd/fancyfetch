@@ -7,11 +7,11 @@ export interface Fetch {
       });
 }
 
-export interface FancyfetchExtras {
+export interface FancyfetchExtras<T> {
   fetch?: (
     resource: Fetch['resource'],
     options?: Fetch['options']
-  ) => Promise<Response>;
+  ) => Promise<Response> | T;
   log?: boolean;
   validateResponse?: (response: Response) => Promise<boolean> | boolean;
   maxAttempts?: number;
