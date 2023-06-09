@@ -8,7 +8,10 @@ export interface Fetch {
 }
 
 export interface FancyfetchExtras {
-  fetch?: (...args: Fetch) => Promise<Response>;
+  fetch?: (
+    resource: Fetch['resource'],
+    options?: Fetch['options']
+  ) => Promise<Response>;
   log?: boolean;
   validateResponse?: (response: Response) => Promise<boolean> | boolean;
   maxAttempts?: number;
