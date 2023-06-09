@@ -126,8 +126,7 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
       const response = await fetchToUse(resource, options);
 
       const validResponse = extrasToUse?.validateResponse
-        ? // @ts-expect-error proper types are already satisfied here
-          await extrasToUse.validateResponse(response.clone())
+        ? await extrasToUse.validateResponse(response.clone())
         : true;
 
       if (validResponse) {
