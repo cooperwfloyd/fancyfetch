@@ -1,17 +1,10 @@
-import type {
-  RequestInfo as NodeFetchRequestInfo,
-  RequestInit as NodeFetchRequestInit,
-  Response,
-} from '@types/node-fetch';
-
 export interface Fetch {
-  resource: RequestInfo | (NodeFetchRequestInfo & RequestInfo);
+  resource: RequestInfo;
   options?:
     | RequestInit
-    | (NodeFetchRequestInit &
-        RequestInit & {
-          highWaterMark?: number | undefined;
-        });
+    | (RequestInit & {
+        highWaterMark?: number | undefined;
+      });
 }
 
 export interface FancyfetchExtras {
