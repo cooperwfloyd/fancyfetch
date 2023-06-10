@@ -1,9 +1,14 @@
-export interface FancyfetchOptions extends RequestInit {
-  highWaterMark?: number;
+export interface Fetch {
+  resource: RequestInfo;
+  options?:
+    | RequestInit
+    | (RequestInit & {
+        highWaterMark?: number | undefined;
+      });
 }
 
 export interface FancyfetchExtras {
-  fetch?: () => Promise<Response>;
+  fetch?: <T>(...args: unknown[]) => Promise<Response<T>> | Promise<Response>;
   log?: boolean;
   validateResponse?: (response: Response) => Promise<boolean> | boolean;
   maxAttempts?: number;
@@ -16,11 +21,9 @@ export interface FancyfetchExtras {
 }
 
 export declare function fancyfetch(
-  resource: RequestInfo,
-  options?: FancyfetchOptions,
+  resource: Fetch['resource'],
+  options?: Fetch['options'],
   extras?: FancyfetchExtras
-  /* eslint-disable @typescript-eslint/no-explicit-any */
 ): Promise<Response>;
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export default fancyfetch;

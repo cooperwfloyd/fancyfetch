@@ -1,7 +1,6 @@
 import type Fancyfetch from './types/fancyfetch';
 // TODO: add debug option to output info
 // TODO: readme
-// TODO: typescript
 // TODO: add an option for max wait time
 // TODO: TOC
 
@@ -20,8 +19,7 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
     );
 
   const fetchToUse =
-    typeof extrasToUse !== `undefined` &&
-    typeof extrasToUse?.fetch === `function`
+    typeof extrasToUse?.fetch && typeof extrasToUse?.fetch === `function`
       ? extrasToUse.fetch
       : typeof fetch === `function`
       ? fetch
@@ -125,7 +123,9 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
     if (attempts > extrasToUse.maxAttempts) return null;
 
     try {
-      const response = await fetchToUse(resource, options);
+      const response = (await fetchToUse(resource, options)) as Response &
+        typeof fetchToUse;
+
       const validResponse = extrasToUse?.validateResponse
         ? await extrasToUse.validateResponse(response.clone())
         : true;
