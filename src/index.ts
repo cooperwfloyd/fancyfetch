@@ -159,7 +159,8 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return await tryFetch();
       }
-    } catch {
+    } catch (e) {
+      if (extrasToUse?.log) console.error(`Error in fancyfetch`, e);
       if (extrasToUse.maxAttempts === 1) return null;
       if (extrasToUse?.log)
         console.error(
@@ -167,7 +168,8 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
             extrasToUse?.retryDelay !== undefined
               ? ` in ${extrasToUse?.retryDelay} ms`
               : ``
-          }...`
+          }...`,
+          e
         );
       if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
       if (extrasToUse?.retryDelay !== undefined)
