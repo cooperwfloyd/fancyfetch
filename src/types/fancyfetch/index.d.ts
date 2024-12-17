@@ -8,22 +8,22 @@ export interface Fetch {
 }
 
 export interface FancyfetchExtras {
-  fetch?: <T>(...args: unknown[]) => Promise<Response<T>>;
+  fetch?: <T>(...args: unknown) => Promise<Response | (Response & T)>;
   log?: boolean;
-  validateResponse?: (response: Response) => Promise<boolean> | boolean;
+  validateResponse?: <T>(
+    response: Response | (Response & T)
+  ) => Promise<boolean> | boolean;
   maxAttempts?: number;
   retryDelay?: number;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  onError?: () => any;
-  onRetryError?: () => any;
-  onRetrySuccess?: () => any;
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  onError?: (error?: unknown) => unknown;
+  onRetryError?: (error?: unknown) => unknown;
+  onRetrySuccess?: () => unknown;
 }
 
-export declare function fancyfetch(
+export declare function fancyfetch<T>(
   resource: Fetch['resource'],
   options?: Fetch['options'],
   extras?: FancyfetchExtras
-): Promise<Response | null>;
+): Promise<Response | (Response & T)>;
 
 export default fancyfetch;

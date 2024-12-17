@@ -117,12 +117,12 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
 
   let attempts = 0;
 
-  const tryFetch = async <T>(): Promise<(Response & T) | null> => {
+  const tryFetch = async <T>(): Promise<Response | (Response & T)> => {
     attempts++;
-    if (attempts > extrasToUse.maxAttempts) return null;
+    if (attempts > extrasToUse.maxAttempts) return new Response();
 
     try {
-      const response = (await fetchToUse(resource, options)) as Response & T;
+      const response = await fetchToUse(resource, options);
 
       const validResponse = extrasToUse?.validateResponse
         ? await extrasToUse.validateResponse(response.clone())
@@ -140,7 +140,7 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
 
         return response;
       } else {
-        if (extrasToUse.maxAttempts === 1) return null;
+        if (extrasToUse.maxAttempts === 1) return new Response();
 
         if (extrasToUse?.log)
           console.error(
@@ -159,7 +159,7 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
       }
     } catch (e) {
       if (extrasToUse?.log) console.error(`Error in fancyfetch`, e);
-      if (extrasToUse.maxAttempts === 1) return null;
+      if (extrasToUse.maxAttempts === 1) return new Response();
       if (extrasToUse?.log)
         console.error(
           `Error in fancyfetch: Failed to fetch. Retrying${
@@ -169,7 +169,7 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
           }...`,
           e
         );
-      if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
+      if (extrasToUse?.onRetryError) extrasToUse.onRetryError(e);
       if (extrasToUse?.retryDelay !== undefined)
         await sleep(extrasToUse?.retryDelay);
 
