@@ -117,14 +117,12 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
 
   let attempts = 0;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tryFetch = async (): Promise<any> => {
+  const tryFetch = async <T>(): Promise<(Response & T) | null> => {
     attempts++;
     if (attempts > extrasToUse.maxAttempts) return null;
 
     try {
-      const response = (await fetchToUse(resource, options)) as Response &
-        typeof fetchToUse;
+      const response = (await fetchToUse(resource, options)) as Response & T;
 
       const validResponse = extrasToUse?.validateResponse
         ? await extrasToUse.validateResponse(response.clone())
@@ -156,7 +154,7 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
         if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
         if (extrasToUse?.retryDelay !== undefined)
           await sleep(extrasToUse?.retryDelay);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
         return await tryFetch();
       }
     } catch (e) {
@@ -174,12 +172,11 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
       if (extrasToUse?.onRetryError) extrasToUse.onRetryError();
       if (extrasToUse?.retryDelay !== undefined)
         await sleep(extrasToUse?.retryDelay);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
       return await tryFetch();
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const result = await tryFetch();
 
   const errorMessage = `Error in fancyfetch: No successful responses were returned.\n\nresource: ${JSON.stringify(
@@ -202,7 +199,6 @@ const fancyfetch: typeof Fancyfetch = async (resource, options, extras) => {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return result;
 };
 
